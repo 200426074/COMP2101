@@ -26,8 +26,13 @@ echo ""
 echo "Setgid files:"
 echo "============="
 find / -type f -executable -perm -2000 -ls 2>/dev/null | sort -k 6
+# It finds setgid files in a second listing
+# it shows setuid file list
+# /dev/null so we do not get errors for inaccessible directories and files
+# the identified files are sorted by their group
 echo ""
 echo "The 10 largest regular files in the system:"
 echo "============="
-find / -type f -exec ls -alh --block-size=M {} \; 2>/dev/null | sort -hr -k5 | head -n 10 | awk '{print $5, $3, $9}'
+find / -type f -exec ls -alh 2>/dev/null --block-size=M {} \; | sort -h -k5 | tail | awk '{print $5, $3, $9}'
+# This commands finds file on root directory with applying ls command on each and every findings and transfers to sort command which sorts and it actually does on column 5 so files can be identifys from shortest to largest and pipe afterwards shows last 10 lines on findings and awk customly represents the columns as lab instruction says. (Extra: --block-size=M: it converts normal looking byte date to GB MB formate, 2>/dev/null: disgards the errors)
 echo ""
